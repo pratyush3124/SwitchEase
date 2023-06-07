@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import PocketBase from 'pocketbase';
+import {app} from '@/firebase';
 
-const pb = new PocketBase(process.env.NEXT_PUBLIC_BACKEND_URL);
- 
 export async function GET() {
-  const data = await pb.collection("orgs").getOne("rfz4nyknaj3dxi0")
- 
+
+  console.log(app);
+  const data = {}
   return NextResponse.json(data);
 }
