@@ -1,7 +1,6 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-
 import { useEffect, useState } from "react"
 import PocketBase from 'pocketbase';
 
@@ -9,12 +8,14 @@ const pb = new PocketBase(process.env.NEXT_PUBLIC_BACKEND_URL);
 
 export default function Experts() {
 
-  const [articles, setArticles] = useState();
+  const authen = pb.authStore.isValid;
+
+  const [experts, setExperts] = useState();
 
   useEffect(()=>{
-    fetch("/api/articles")
+    fetch("/api/experts")
     .then(data=>data.json())
-    .then(data=>{setArticles(data.items);console.log(data.items)})
+    .then(data=>{setExperts(data.items);console.log(data.items)})
   }, [])
 
   const router = useRouter()
@@ -32,9 +33,9 @@ export default function Experts() {
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
           <li>
-            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="/" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg aria-hidden="true" className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-              <span className="ml-3">Dashboard</span>
+              <span className="ml-3">Home</span>
             </a>
           </li>
           {/* <li>
@@ -89,10 +90,10 @@ export default function Experts() {
             </a>
           </li> */}
           <li>
-            <button onClick={()=>{pb.authStore.isValid?pb.authStore.clear():router.push("/login")}} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg aria-hidden="true" className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd"></path></svg>
-              <span className="flex-1 ml-3 whitespace-nowrap">{pb.authStore.isValid?"Log Out":"Log In"}</span>
-            </button>
+              <span className="flex-1 ml-3 whitespace-nowrap">Log Out</span>
+            </a>
           </li>
           {/* <li>
             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -107,10 +108,10 @@ export default function Experts() {
     <div className="p-4 sm:ml-64">
       <div className="text-5xl">Experts</div>
 
-      {articles?.map((val, ind) => {
+      {experts?.map((val, ind) => {
         return (<a key={ind}
           href="#"
-          className="m-5 relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8"
+          className="m-5 max-w-3xl relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8"
         >
           <span
             className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
@@ -119,10 +120,10 @@ export default function Experts() {
           <div className="sm:flex sm:justify-between sm:gap-4">
             <div>
               <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
-                Building a SaaS product as a software developer
+                {val.name}
               </h3>
 
-              <p className="mt-1 text-xs font-medium text-gray-600">By John Doe</p>
+              <p className="mt-1 text-xs font-medium text-gray-600">{val.tag}</p>
             </div>
 
             <div className="hidden sm:block sm:shrink-0">
@@ -136,8 +137,7 @@ export default function Experts() {
 
           <div className="mt-4">
             <p className="max-w-[40ch] text-sm text-gray-500">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. At velit illum
-              provident a, ipsa maiores deleniti consectetur nobis et eaque.
+              {val.description}
             </p>
           </div>
 

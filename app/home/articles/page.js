@@ -25,9 +25,9 @@ export default function Articles() {
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
           <li>
-            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="/" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg aria-hidden="true" className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-              <span className="ml-3">Dashboard</span>
+              <span className="ml-3">Home</span>
             </a>
           </li>
           {/* <li>
@@ -99,27 +99,31 @@ export default function Articles() {
 
     <div className="p-4 sm:ml-64">
       <div className="text-5xl">Articles</div>
-      {articles?.map((val, ind) => {
-        return (
+      <div className="grid grid-cols-3 gap-4 mt-5">
+        {articles?.map((val, ind) => {
+          return (
 
-          <div key={ind} className="max-w-lg mx-auto">
-            <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">
-              <a href={"/home/articles/" + val.id}>
-                <img className="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt=""></img>
-              </a>
-              <div className="p-5">
-                <a href={"/home/articles/" + val.id}>
-                  <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2">{val.title}</h5>
-                </a>
-                <p className="font-normal text-gray-700 mb-3">{val.content.substring(0, 300)}</p>
-                {/* <a href={"/home/articles/"+val.id} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center" href="#">
+            <div key={ind} className="max-w-lg mx-auto">
+              <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">
+                {/* <a href={"/home/articles/" + val.id}>
+                  <img className="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt=""></img>
+                </a> */}
+                <div className="p-5">
+                  <a href={"/home/articles/" + val.id}>
+                    <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2">{val.title}</h5>
+                  </a>
+                  <p className="font-normal text-gray-700 mb-3">
+                    <div dangerouslySetInnerHTML={{ __html: val.content.substring(0, 300) }}></div>
+                  </p>
+                  {/* <a href={"/home/articles/"+val.id} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center" href="#">
                   Read more
                 </a> */}
+                </div>
               </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   </div>
   )
